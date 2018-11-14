@@ -1,1 +1,160 @@
-MySQL - PHPMyAdmins
+MySQL - PHPMyAdmin - XAMPP
+
+edit config.php when password is set
+
+---------------------------CRUD---------------------------------
+//Create database
+CREATE DATABASE testDb;
+
+//Delete database
+DROP DATABASE testDb;
+
+//Create table name, fields,
+// /w auto increment primary key
+
+CREATE TABLE customers(
+    id INT NOT NULL AUTO_INCREMENT,
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
+    address VARCHAR(255),
+    PRIMARY KEY(id)
+);
+
+//Insert data single or multiple
+INSERT INTO customers (firstName, lastName, address) VALUES ('John', 'Doe', '3 Main st'),
+('Jane', 'Doe', '66 Main st');
+
+//Update / where to update
+UPDATE customers 
+SET address = 'test'
+WHERE id = 2;
+
+//Delete
+DELETE FROM customers
+WHERE id = 3;
+
+//Add a column
+ALTER TABLE customers ADD testCol VARCHAR(255);
+
+//Change data type (other databases ALTER COLUMN)
+ALTER TABLE customers
+MODIFY COLUMN testCol INT(11);
+
+// Delete a column
+ALTER TABLE customersDROP COLUMN testCol;
+
+--------------------------------------Selecting data-------------------------
+
+//All
+SELECT * FROM 'customer';
+
+//Fields
+SELECT firstName, lastName FROM customers;
+
+//Select specifics
+SELECT * FROM customers WHERE id= 3;
+
+//Order sorted - descending
+SELECT * FROM customers ORDER BY lastName DESC;
+--or-- ASC
+
+//Doesn't show duplicates e.g same city
+SELECT DISTINCT firstName FROM customers;
+
+//Numbers - > != >= <= 
+SELECT * FROM customers WHERE age < 30;
+
+!= or <>
+BETWEEN -  a range e.g. cost BETWEEN 100 AND 1000;
+LIKE - match a pattern(William) e.g. firstName LIKE 'Will%' LIKE '%illi%
+IN - Equal to multiple posiible values e.g. postcode IN (B33, B44, B55);
+IS or IS NOT - compare to null e.g. address IS NOT NULL
+AS - change a field name when viewing results e.g. SELECT firstName AS 'First Name'
+
+//WHERE LIKE
+SELECT * FROM customers
+WHERE city LIKE '%n%';
+
+//WHERE IN (Multiple)
+SELECT * FROM customers
+WHERE city IN ('New York', 'New Jersey');
+
+//Get current time
+orderDate DATETIME default CURRENT_TIMESTAMP,
+
+--------------------------------------Indexes-------------------------
+//Speeds up commonly searched fields
+CREATE INDEX CIndex
+ON customers(city);
+
+DROP INDEX CIndex ON customers;
+
+--------------------------------------Relationships/ Foreign keys-------------------------
+//Prevents data corruption
+
+CREATE TABLE orders(
+    id INT NOT NULL AUTO_INCREMENT,
+    orderNumber INT,
+    customerID INT,
+    orderDate DATETIME default CURRENT_TIMESTAMP,
+    PRIMARY KEY(id),
+    FOREIGN KEY(customerId) REFERENCES customers(id),
+    FOREIGN KEY(productId) REFERENCES products(id)
+);
+
+--------------------------------------Joins (Data from multiple tables)-----------------------------
+//2 tables
+SELECT customers.firstName, customers.lastName, orders.orderNumber
+FROM customers
+INNER JOIN orders 
+ON customers.id = orders.customerId //should match(foreign key)
+INNER JOIN products
+ORDER BY customers.lastName;
+
+//3 tables
+SELECT orders.orderNumber, customers.firstName, customers.lastName, products.name
+FROM orders
+    INNER JOIN products
+        ON orders.productId = products.id
+    INNER JOIN customers
+        ON orders.customerId = customer.id
+ORDER BY order.orderNumber;
+
+LEFT JOIN - joins left side
+RIGHT JOIN - joins right side
+
+--------------------------------------Aliases - AS Concat ---------------------------------
+
+//Alias for columns
+SELECT CONCAT(firstName, ' ', lastName) AS 'Full Name', address FROM customers;
+
+//Alias for tables
+SELECT o.id, o.orderDate, c.firstName, c.lastName
+FROM customers AS c, orders AS o;
+
+--------------------------------------Aggregate functions - AS Concat ---------------------------------
+
+//Averages
+SELECT AVG(age) FROM customers;
+
+//count - 5 customers with address field
+SELECT COUNT(address) FROM customers;
+
+//MAX / MIN / SUM
+SELECT sum(age) FROM customers;
+
+//GROUP (groups fields e.g. Two 33yr olds with age: 33 Count(age): 2)
+SELECT age, COUNT(age) 
+FROM customers 
+WHERE age > 30
+GROUP BY age;
+
+//HAVING those fields e.g. COUNT more than 2
+SELECT age, COUNT(age) 
+FROM customers 
+WHERE age > 30
+GROUP BY age;
+HAVING COUNT (age) >=2
+
+//LCASE UCASE
+SELECT UCASE(firstName), LCASE(lastName) FROM customers
