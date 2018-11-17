@@ -7,7 +7,7 @@ Server side code snippets
 
 - Postman
 
-`npm i express mongoose passport passport-jwt jsonwebtoken body-parser bcryptjs validator`
+`npm i express mongoose passport passport-jwt jsonwebtoken body-parser bcryptjs validator` / 
 `npm -D i nodemon`
 
 ### Validation
