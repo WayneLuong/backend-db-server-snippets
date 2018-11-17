@@ -3,10 +3,20 @@ Server side code snippets
 
 ## Node.js / Express.js
 
+## API Dev
+
+- Postman
+
+`npm i express mongoose passport passport-jwt jsonwebtoken body-parser bcryptjs validator`
+
 ### Validation
 
 - Validator
 
-### API Dev
+## DB
 
-- Postman
+- mongodb / mlab
+
+
+
+
