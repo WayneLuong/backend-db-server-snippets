@@ -10,7 +10,7 @@ Server side code snippets
 `npm i express mongoose passport passport-jwt jsonwebtoken body-parser bcryptjs validator` / 
 `npm -D i nodemon`
 
--concurrently
+- concurrently
 
 ### Validation
 
