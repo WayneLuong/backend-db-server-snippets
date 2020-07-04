@@ -1,5 +1,5 @@
 # db-server-snippets
-Server side code snippets
+Node.js server side code snippets
 
 ## Node.js / Express.js
 
